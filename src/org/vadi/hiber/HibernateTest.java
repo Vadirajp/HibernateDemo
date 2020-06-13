@@ -5,6 +5,7 @@ import java.util.Date;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.vadi.hiber.model.Address;
 import org.vadi.hiber.model.UserDetails;
 
 public class HibernateTest {
@@ -13,21 +14,26 @@ public class HibernateTest {
 		UserDetails user = new UserDetails();
 		user.setUserName("vadi");
 		user.setJoinDate(new Date());
-		user.setAddress("Bangalore");
 		user.setDescription("Test User 1");
+		Address addr = new Address();
+		addr.setCity("Banglore");
+		addr.setState("Karnataka");
+		addr.setStreet("Whilte Field");
+		addr.setPincode("1234");
+		user.setOfficeAddress(addr);
 		
-		UserDetails user2 = new UserDetails();
-		user2.setUserName("raj");
-		user2.setJoinDate(new Date());
-		user2.setAddress("Tumkur");
-		user2.setDescription("Test User 2");
+		Address addr2 = new Address();
+		addr2.setCity("TMK");
+		addr2.setState("Karnataka");
+		addr2.setStreet("KYT");
+		addr2.setPincode("5678");
+		user.setHomeAddress(addr2);
 		
 		/***********Insert***********/
 		SessionFactory sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.save(user);
-		session.save(user2);		
+		session.save(user);	
 		session.getTransaction().commit();
 		session.close();
 		/***********Insert***********/

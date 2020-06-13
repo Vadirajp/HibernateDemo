@@ -2,7 +2,10 @@ package org.vadi.hiber.model;
 
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,8 +34,17 @@ public class UserDetails {
 	@Temporal(TemporalType.DATE) //only date, no time 
 	private Date joinDate;
 	
-	@Column(name="ADDRESS")
-	private String address;
+	@Embedded //not mandatory as we are using class name here
+	@AttributeOverrides({
+		@AttributeOverride (name="street",column=@Column(name="HOME_STREET_NAME")),
+		@AttributeOverride (name="state",column=@Column(name="HOME_STATE_NAME")),
+		@AttributeOverride (name="city",column=@Column(name="HOME_CITY_NAME")),
+		@AttributeOverride (name="pincode",column=@Column(name="HOME_PIN_CODE"))
+	})
+	private Address homeAddress;
+	
+	@Embedded
+	private Address officeAddress;
 	
 	@Column(name="DESCRIPTION")
 	@Lob //If we don't know the size
@@ -56,11 +68,20 @@ public class UserDetails {
 	public void setJoinDate(Date joinDate) {
 		this.joinDate = joinDate;
 	}
-	public String getAddress() {
-		return address;
+	
+	
+	
+	public Address getHomeAddress() {
+		return homeAddress;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+	public Address getOfficeAddress() {
+		return officeAddress;
+	}
+	public void setOfficeAddress(Address officeAddress) {
+		this.officeAddress = officeAddress;
 	}
 	public String getDescription() {
 		return description;
@@ -70,9 +91,12 @@ public class UserDetails {
 	}
 	@Override
 	public String toString() {
-		return "UserDetails [userId=" + userId + ", userName=" + userName + ", joinDate=" + joinDate + ", address="
-				+ address + ", description=" + description + "]";
+		return "UserDetails [userId=" + userId + ", userName=" + userName + ", joinDate=" + joinDate + ", homeAddress="
+				+ homeAddress + ", officeAddress=" + officeAddress + ", description=" + description + "]";
 	}
+	
+	
+	
 	
 	
 	
