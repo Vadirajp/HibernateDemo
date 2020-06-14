@@ -15,19 +15,26 @@ public class HibernateTest {
 		user.setUserName("vadi");
 		user.setJoinDate(new Date());
 		user.setDescription("Test User 1");
+		
 		Address addr = new Address();
 		addr.setCity("Banglore");
 		addr.setState("Karnataka");
 		addr.setStreet("Whilte Field");
 		addr.setPincode("1234");
-		user.setOfficeAddress(addr);
+		
 		
 		Address addr2 = new Address();
 		addr2.setCity("TMK");
 		addr2.setState("Karnataka");
 		addr2.setStreet("KYT");
 		addr2.setPincode("5678");
-		user.setHomeAddress(addr2);
+		
+		
+		user.getListOfAddress().add(addr);
+		user.getListOfAddress().add(addr2);
+		
+		
+		
 		
 		/***********Insert***********/
 		SessionFactory sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
@@ -45,7 +52,7 @@ public class HibernateTest {
 		session.beginTransaction();
 		user = (UserDetails) session.get(UserDetails.class, 1);
 		session.close();
-		System.out.println(user.toString());
+		//System.out.println(user.toString());
 		/***********Fetching***********/
 		
 	}
